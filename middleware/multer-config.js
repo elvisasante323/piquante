@@ -4,7 +4,8 @@ const multer = require("multer"); // Import multer package
 const MIME_TYPES = {
     'image/jpg' : 'jpg',
     'image/jpeg' : 'jpg',
-    'image/png' : 'png'
+    'image/png' : 'png',
+    'image/webp' : 'webp'
 };
 
 // Storage settings
