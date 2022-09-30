@@ -126,14 +126,19 @@ exports.delete = (req, res, next) => {
 // Like a sauce
 exports.like = (req, res, next) => {
 
-    let sauce = new Sauce({ _id: req.params._id});
+    // When a sauce is liked
+    if (req.body.like === 1) {
 
-    sauce = {
-        _id: req.params.id,
-        like: 1
-    };
+        Sauce.updateOne({ _id: req.params.id }, { $inc: { likes: req.body.like++ }, $push: { usersLiked: req.body.userId } })
+            .then((sauce) => res.status(200).json({ message: 'Sauce liked successfully !' }))
+            .catch(error => res.status(400).json({ error }))
+    }
 
-    Sauce.updateOne( { _id: req.params.id }, sauce )
-        .then( () => { res.status(201).json({ message: 'Sauce liked successfully!'}); })
-        .catch( (error) => { res.status(400).json({ error: error }); })
+    // When a sauce is disliked
+    if (req.body.like === -1) {
+
+        Sauce.updateOne({ _id: req.params.id }, { $inc: { dislikes: (req.body.like++) * -1 }, $push: { usersDisLiked: req.body.userId } })
+            .then((sauce) => res.status(200).json({ message: 'Sauce disliked successfully !' }))
+            .catch(error => res.status(400).json({ error }))
+    }
 };
