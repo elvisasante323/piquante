@@ -1,4 +1,5 @@
 .gitattributes
 .idea
+frontend
 node_modules
 .env
